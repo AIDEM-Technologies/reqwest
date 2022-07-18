@@ -156,7 +156,7 @@ impl Identity {
     /// ```
     /// # use std::fs::File;
     /// # use std::io::Read;
-    /// # fn pkcs12() -> Result<(), Box<std::error::Error>> {
+    /// # fn pkcs12() -> Result<(), Box<dyn std::error::Error>> {
     /// let mut buf = Vec::new();
     /// File::open("my-ident.pfx")?
     ///     .read_to_end(&mut buf)?;
@@ -191,7 +191,7 @@ impl Identity {
     /// ```
     /// # use std::fs::File;
     /// # use std::io::Read;
-    /// # fn pem() -> Result<(), Box<std::error::Error>> {
+    /// # fn pem() -> Result<(), Box<dyn std::error::Error>> {
     /// let mut buf = Vec::new();
     /// File::open("my-ident.pem")?
     ///     .read_to_end(&mut buf)?;
