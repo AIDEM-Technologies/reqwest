@@ -1,10 +1,10 @@
-name: CI
+name: MAIN-CI
 
 on:
   pull_request:
   push:
     branches:
-      - master
+      - main
 
 env:
   REQWEST_TEST_BODY_FULL: 1
