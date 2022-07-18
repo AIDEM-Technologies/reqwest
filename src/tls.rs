@@ -60,7 +60,7 @@ impl Certificate {
     /// ```
     /// # use std::fs::File;
     /// # use std::io::Read;
-    /// # fn cert() -> Result<(), Box<std::error::Error>> {
+    /// # fn cert() -> Result<(), Box<dyn std::error::Error>> {
     /// let mut buf = Vec::new();
     /// File::open("my_cert.der")?
     ///     .read_to_end(&mut buf)?;
@@ -85,7 +85,7 @@ impl Certificate {
     /// ```
     /// # use std::fs::File;
     /// # use std::io::Read;
-    /// # fn cert() -> Result<(), Box<std::error::Error>> {
+    /// # fn cert() -> Result<(), Box<dyn std::error::Error>> {
     /// let mut buf = Vec::new();
     /// File::open("my_cert.pem")?
     ///     .read_to_end(&mut buf)?;
