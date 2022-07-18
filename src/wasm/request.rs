@@ -1,6 +1,7 @@
 use std::convert::TryFrom;
 use std::fmt;
 use std::io::Write;
+use std::time::Duration;
 
 use base64::write::EncoderWriter as Base64Encoder;
 use bytes::Bytes;
@@ -22,6 +23,7 @@ pub struct Request {
     body: Option<Body>,
     pub(super) cors: bool,
     pub(super) credentials: Option<RequestCredentials>,
+    timeout: Option<Duration>,
 }
 
 /// A builder to construct the properties of a `Request`.
@@ -41,6 +43,7 @@ impl Request {
             body: None,
             cors: true,
             credentials: None,
+            timeout: None,
         }
     }
 
@@ -86,6 +89,18 @@ impl Request {
         self.body.as_ref()
     }
 
+     /// Get the timeout.
+     #[inline]
+     pub fn timeout(&self) -> Option<&Duration> {
+         self.timeout.as_ref()
+     }
+ 
+     /// Get a mutable reference to the timeout.
+     #[inline]
+     pub fn timeout_mut(&mut self) -> &mut Option<Duration> {
+         &mut self.timeout
+     }
+
     /// Get a mutable reference to the body.
     #[inline]
     pub fn body_mut(&mut self) -> &mut Option<Body> {
@@ -108,6 +123,7 @@ impl Request {
             body,
             cors: self.cors,
             credentials: self.credentials,
+            timeout: None,
         })
     }
 }
@@ -115,6 +131,18 @@ impl Request {
 impl RequestBuilder {
     pub(super) fn new(client: Client, request: crate::Result<Request>) -> RequestBuilder {
         RequestBuilder { client, request }
+    }
+
+    /// Enables a request timeout.
+    ///
+    /// The timeout is applied from when the request starts connecting until the
+    /// response body has finished. It affects only this request and overrides
+    /// the timeout configured using `ClientBuilder::timeout()`.
+    pub fn timeout(mut self, timeout: Duration) -> RequestBuilder {
+        if let Ok(ref mut req) = self.request {
+            *req.timeout_mut() = Some(timeout);
+        }
+        self
     }
 
     /// Modify the query string of the URL.
@@ -462,6 +490,7 @@ where
             body: Some(body.into()),
             cors: true,
             credentials: None,
+            timeout: None,
         })
     }
 }
