@@ -37,7 +37,7 @@ async fn client_with_timeout() {
 
     assert_eq!(err.is_request(), true);
     assert_eq!(
-        format!("{:?}", err).contains("AbortError: Fetch is aborted"),
+        format!("{:?}", err).contains("The user aborted a request."),
         true
     );
 }
