@@ -89,17 +89,17 @@ impl Request {
         self.body.as_ref()
     }
 
-     /// Get the timeout.
-     #[inline]
-     pub fn timeout(&self) -> Option<&Duration> {
-         self.timeout.as_ref()
-     }
- 
-     /// Get a mutable reference to the timeout.
-     #[inline]
-     pub fn timeout_mut(&mut self) -> &mut Option<Duration> {
-         &mut self.timeout
-     }
+    /// Get the timeout.
+    #[inline]
+    pub fn timeout(&self) -> Option<&Duration> {
+        self.timeout.as_ref()
+    }
+
+    /// Get a mutable reference to the timeout.
+    #[inline]
+    pub fn timeout_mut(&mut self) -> &mut Option<Duration> {
+        &mut self.timeout
+    }
 
     /// Get a mutable reference to the body.
     #[inline]

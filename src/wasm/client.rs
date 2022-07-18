@@ -1,9 +1,9 @@
 use http::{HeaderMap, Method};
 use js_sys::{Promise, JSON};
+use std::rc::Rc;
 use std::{fmt, future::Future, sync::Arc};
 use url::Url;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure, UnwrapThrowExt as _};
-use std::rc::{Rc};
 use wasm_bindgen::JsCast;
 
 use super::{Request, RequestBuilder, Response};
@@ -230,10 +230,12 @@ async fn fetch(req: Request) -> crate::Result<Response> {
 
         init.signal(Some(&abort_signal));
 
-        window.set_timeout_with_callback_and_timeout_and_arguments_0(
-            abort_request_cb.as_ref().unchecked_ref(),
-            duration.as_millis() as i32,
-        ).expect("timeout was set");
+        window
+            .set_timeout_with_callback_and_timeout_and_arguments_0(
+                abort_request_cb.as_ref().unchecked_ref(),
+                duration.as_millis() as i32,
+            )
+            .expect("timeout was set");
 
         abort_request_cb.forget();
     }
