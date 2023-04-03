@@ -6,7 +6,7 @@ use url::Url;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure, UnwrapThrowExt as _};
 use wasm_bindgen::JsCast;
 
-use super::{Request, RequestBuilder, Response};
+use super::{AbortGuard, Request, RequestBuilder, Response};
 use crate::IntoUrl;
 
 #[wasm_bindgen]
@@ -271,7 +271,7 @@ async fn fetch(req: Request) -> crate::Result<Response> {
     }
 
     resp.body(js_resp)
-        .map(|resp| Response::new(resp, url))
+        .map(|resp| Response::new(resp, url, abort))
         .map_err(crate::error::request)
 }
 
