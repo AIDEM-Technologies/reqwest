@@ -52,7 +52,7 @@ impl AbortGuard {
             ctrl: AbortController::new()
                 .map_err(crate::error::wasm)
                 .map_err(crate::error::builder)?,
-                timeout: None,
+            timeout: None,
         })
     }
 
