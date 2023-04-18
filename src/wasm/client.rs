@@ -1,10 +1,10 @@
 use http::{HeaderMap, Method};
 use js_sys::{Promise, JSON};
-use std::rc::Rc;
+// use std::rc::Rc;
 use std::{fmt, future::Future, sync::Arc};
 use url::Url;
-use wasm_bindgen::prelude::{wasm_bindgen, Closure, UnwrapThrowExt as _};
-use wasm_bindgen::JsCast;
+use wasm_bindgen::prelude::{wasm_bindgen, UnwrapThrowExt as _};
+// use wasm_bindgen::JsCast;
 
 use super::{AbortGuard, Request, RequestBuilder, Response};
 use crate::IntoUrl;
@@ -187,9 +187,9 @@ impl fmt::Debug for ClientBuilder {
 async fn fetch(req: Request) -> crate::Result<Response> {
     // Build the js Request
     let mut init = web_sys::RequestInit::new();
-    let abort_controller = Rc::new(web_sys::AbortController::new().unwrap());
-    let abort_signal = Rc::clone(&abort_controller).signal();
-    let window = web_sys::window().expect("should have a window in this context");
+    // let abort_controller = Rc::new(web_sys::AbortController::new().unwrap());
+    // let abort_signal = Rc::clone(&abort_controller).signal();
+    // let window = web_sys::window().expect("should have a window in this context");
     init.method(req.method().as_str());
 
     // convert HeaderMap to Headers
@@ -223,7 +223,10 @@ async fn fetch(req: Request) -> crate::Result<Response> {
         }
     }
 
-    let abort = AbortGuard::new()?;
+    let mut abort = AbortGuard::new()?;
+    if let Some(timeout) = req.timeout() {
+        abort.timeout(*timeout);
+    }
     init.signal(Some(&abort.signal()));
 
     let js_req = web_sys::Request::new_with_str_and_init(req.url().as_str(), &init)
