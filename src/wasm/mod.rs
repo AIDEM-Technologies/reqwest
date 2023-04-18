@@ -1,9 +1,9 @@
+use js_sys::Function;
+use std::convert::TryInto;
+use std::time::Duration;
+use wasm_bindgen::prelude::{wasm_bindgen, Closure};
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{AbortController, AbortSignal};
-use std::time::Duration;
-use std::convert::TryInto;
-use js_sys::Function;
-use wasm_bindgen::prelude::{wasm_bindgen, Closure};
 
 mod body;
 mod client;
